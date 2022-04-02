@@ -1,80 +1,86 @@
-let temp ="";
+let currentNum ="";
 let tempA ="";
 let tempB ="";
-let tempOperate=""
+let tempOperate="";
 
-const displayArr=[];
 
 const add = function(a,b) {
-	temp=(parseInt(a) + parseInt(b));
+	currentNum=(parseInt(a) + parseInt(b));
     tempB="";
 };
 
 const subtract = function(a,b) {
-  return (a > b ? a- b : b -a)
+    currentNum=(parseInt(a) - parseInt(b));
+    tempB="";
 };
 
-
-const multiply = function(arr) {
-  let total = 1;
-
-  for(i = 0 ;i<arr.length ;i++){
-    total*= arr[i];
-  }
-  return total;
-
+const multiply = function(a,b) {
+    currentNum=(parseInt(a) * parseInt(b));
+    tempB="";
 };
 
-const divide = function(arr){
-
+const divide = function(a,b){
+    currentNum=(parseInt(a) / parseInt(b));
+    tempB="";
 }
 
 const buttons = document.querySelectorAll(".c");
 
 buttons.forEach((button)=>{
     button.addEventListener('click', ()=>{
+        currentNum+=(button.textContent);
 
-        temp+=(button.textContent);
-    if(button.textContent == "+"){
-        tempOperate = button.textContent;
-        tempA=temp.slice(0,-1);
-        temp = "";
-        console.log(tempOperate)
-    }
-    else if(button.textContent == "-"){
-        tempOperate = button.textContent;
-        tempA=temp.slice(0,-1);
-        console.log(tempOperate)
-    }
-    else if(button.textContent == "*"){
-        tempOperate = button.textContent;
-        tempA=temp.slice(0,-1);
-        console.log(tempOperate)
-    }
-    else if(button.textContent == "/"){
-        tempOperate = button.textContent;
-        tempA=temp.slice(0,-1);
-        console.log(tempOperate)
-    }
-    else if(button.textContent=="="){
-        tempB+= temp;
-        if(tempOperate=="+"){
-            add(tempA,tempB)
+        if(button.textContent=="+"){
+            tempOperate = button.textContent;
+            tempA=currentNum.slice(0,-1);
+            currentNum = "";
+            
         }
-        console.log("this is temp B",tempB)
-    }
-    else{
-        displayArr.push(button.textContent);
-        console.log("temp is ",temp);
-    }
-       updateScreen(button.textContent);
+        // else if(tempOperate == "++"){
+        //     solve();
+        // }
+        else if(button.textContent=="-"){
+            tempOperate = button.textContent;
+            tempA=currentNum.slice(0,-1);
+            currentNum = "";
+        }
+        else if(button.textContent=="*"){
+            tempOperate = button.textContent;
+            tempA=currentNum.slice(0,-1);
+            currentNum = "";
+        }
+        else if(button.textContent=="/"){
+            tempOperate = button.textContent;
+            tempA=currentNum.slice(0,-1);
+            currentNum = "";
+        }
+        else if(button.textContent=="="){
+            solve();
+        }
 
-    })
+        updateScreen(button.textContent);
+    })                    
 })
+
+const solve =()=>{
+    tempB+= currentNum;
+            if(tempOperate == "+"){
+                add(tempA,tempB)
+            }
+            if(tempOperate == "-"){
+                subtract(tempA,tempB)
+            }
+            if(tempOperate == "*"){
+                multiply(tempA,tempB)
+            }
+            if(tempOperate == "/"){
+                divide(tempA,tempB)
+            }
+}
 
 const updateScreen = ()=>{
     const screenNumber= document.getElementById('screen');
-    screenNumber.textContent=temp;
+    screenNumber.textContent=currentNum;
 }
 
 const clearButton=document.getElementById('clear');
@@ -82,7 +88,7 @@ clearButton.addEventListener('click',()=>{
     clear();
 })
 const clear =()=>{
-    temp = "";
+    currentNum = "";
     updateScreen();
 }
 
